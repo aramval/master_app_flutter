@@ -1,5 +1,5 @@
 import 'package:master_app/config/entities/pokemon.dart';
-import 'package:master_app/models/pokemon_service.dart';
+import 'package:master_app/models/pokeapi_responsio.dart';
 
 
 class PokemonMapper {
