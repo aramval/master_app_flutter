@@ -1,6 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:master_app/presentation/providers/providers.dart';
 import 'package:master_app/widgets/widgets.dart';
 
 
@@ -15,7 +17,9 @@ class CalceusDescScreen extends StatelessWidget {
           Stack(
             children: [
           
-          CalceusPraevidere(screenCompletaEst: true,),
+          const Hero(
+            tag: 'zapato-1',
+            child: CalceusPraevidere(screenCompletaEst: true,)),
 
           Positioned(
             top: 60,
@@ -92,17 +96,26 @@ class _ColoresEtAlterButton extends StatelessWidget {
             children: [
               Positioned(
                 left: 90,
-                child:   const _ActioButtonColor(color: Color.fromARGB(255, 198, 214, 66)),
+                child:   const _ActioButtonColor
+                (color: Color.fromARGB(255, 198, 214, 66), index: 4,
+                urlImago: 'assets/imagines/verde.png',),
                 ),
                   Positioned(
                 left: 60,
-                child:   const _ActioButtonColor(color: Color.fromARGB(255, 255, 173, 41)),
+                child:   const _ActioButtonColor
+                (color: Color.fromARGB(255, 255, 173, 41), index: 3,
+                urlImago: 'assets/imagines/amarillo.png',),
                 ),
                   Positioned(
                 left: 30,
-                child:      const _ActioButtonColor(color: Color.fromARGB(255, 32, 153, 241)),
+                child:      const _ActioButtonColor
+                (color: Color.fromARGB(255, 32, 153, 241), index: 2,
+                urlImago: 'assets/imagines/azul.png',),
                 ),
-                 _ActioButtonColor(color: Color.fromARGB(255, 54, 77, 86)),
+
+                 _ActioButtonColor
+                 (color: Color.fromARGB(255, 54, 77, 86), index: 1,
+                 urlImago: 'assets/imagines/negro.png',),
             ],
           )),
 
@@ -123,16 +136,30 @@ class _ColoresEtAlterButton extends StatelessWidget {
   }
 }
 
-class _ActioButtonColor extends StatelessWidget {
+class _ActioButtonColor extends ConsumerWidget {
   final Color color;
-  const _ActioButtonColor({required this.color});
+  final int index;
+  final String urlImago;
+
+
+  const _ActioButtonColor({required this.color, required this.index, required this.urlImago});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 45,
-      height: 45,
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    return FadeInLeft(
+      delay: Duration(milliseconds: index * 100),
+      duration: const Duration(milliseconds: 300),
+      child: GestureDetector(
+        onTap: (){
+          ref.read(calceusProvider.notifier).ponereAssetImago(urlImago);
+        },
+        child: Container(
+          width: 45,
+          height: 45,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+      ),
     );
   }
 }
